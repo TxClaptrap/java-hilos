@@ -14,7 +14,7 @@ public class AdivinadorDeHilos {
         List<Thread> hilos = new ArrayList<>();
 
         for (int i = 0; i < N_HILOS; i++) {
-            hilos.add(new Thread (new HiloAdivinador("Hilo", compartido)));
+            hilos.add(new Thread(new HiloAdivinador("Hilo", compartido)));
             hilos.get(i).start();
         }
 
@@ -22,16 +22,11 @@ public class AdivinadorDeHilos {
             thread.join();
         }
     }
-
-
 }
 
 class Compartido {
     int numeroElegido;
     boolean adivinado;
-
-    
-
 
     public Compartido(int numeroElegido) {
         this.numeroElegido = numeroElegido;
@@ -40,13 +35,12 @@ class Compartido {
 
     synchronized String comprueba(int numeroAleatorio) {
         if (adivinado) {
-            return "Ya lo han adivinado";
+            return "Ya lo han adivinado.";
         }
         if (numeroAleatorio == numeroElegido) {
             adivinado = true;
             return "Lo has adivinado.";
-        }
-        else {
+        } else {
             return "Intenta de nuevo.";
         }
     }
@@ -70,7 +64,7 @@ class HiloAdivinador implements Runnable {
     public static synchronized void incrementarNumHilo() {
         numHilo++;
     }
-    
+
     public static synchronized int getNumHilo() {
         return numHilo;
     }
@@ -82,22 +76,38 @@ class HiloAdivinador implements Runnable {
         numeroAleatorio = ThreadLocalRandom.current().nextInt(0, compartido.getNumeroElegido() + 100);
     }
 
-
-
     @Override
     public void run() {
-        String respuesta;
-        while (!compartido.isAdivinado()) {
-            respuesta = compartido.comprueba(numeroAleatorio);
-            if (respuesta == "Lo has adivinado.") {
-                System.out.println(nombreHilo + ": Lo he acertado");
-            } else {
-                System.out.println(nombreHilo + ": No lo he acertado.");
-                numeroAleatorio = ThreadLocalRandom.current().nextInt(0, compartido.getNumeroElegido() + 100);
-            }
-        }
-        System.out.println(nombreHilo + "Ya se ha adivinado el número.");
-    }
-
+        while (true) {
+            String respuesta;
     
+            synchronized (compartido) {
+                if (compartido.isAdivinado()) {
+                    System.out.println(nombreHilo + ": Vaya, me han ganado");
+                    return;
+                }
+                respuesta = compartido.comprueba(numeroAleatorio);
+                
+                if (respuesta.equals("Lo has adivinado.")) {
+                    System.out.println(nombreHilo + ": Lo he acertado");
+                    return; 
+                }
+            }
+    
+            if (respuesta.equals("Ya lo han adivinado.")) {
+                System.out.println(nombreHilo + ": Vaya, me han ganado");
+                return; 
+            }
+    
+            System.out.println(nombreHilo + ": No lo he acertado.");
+            numeroAleatorio = ThreadLocalRandom.current().nextInt(0, compartido.getNumeroElegido() + 100);
+        }
+    }
+    
+    
+    
+    
+    
+    
+
 }

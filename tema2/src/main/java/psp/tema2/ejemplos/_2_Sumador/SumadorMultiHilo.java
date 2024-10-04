@@ -7,8 +7,8 @@ import java.util.List;
 class Acumulador {
     long acumulador = 0;
 
-    public synchronized void acumular(long l) {
-        acumulador += l;
+    public synchronized void acumular(long cantidad) {
+        acumulador += cantidad;
     }
 
     public long getAcumulador() {
@@ -29,16 +29,18 @@ class SumadorDeHilos implements Runnable {
 
     @Override
     public void run() {
+        long suma = 0;//Para que no haya conflicto a la hora de calcular cada hilo.
         for (int i = n1; i <= n2; i++) {
-            acu.acumular(i);
+            suma+=i;
         }
+        acu.acumular(suma);
     }
 }
 
 public class SumadorMultiHilo {
 
     static Acumulador suma;
-    private static int N_HILOS = 4;
+    private static int N_HILOS = 10;
 
     public static void main(String[] args) {
         suma = new Acumulador();
