@@ -78,6 +78,7 @@ class HiloAdivinador implements Runnable {
 
     @Override
     public void run() {
+        compartido.comprueba(numeroAleatorio);
         while (true) {
             String respuesta;
     
