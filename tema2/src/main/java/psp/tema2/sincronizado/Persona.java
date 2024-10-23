@@ -1,4 +1,4 @@
-package psp.tema2.ejemplos._5_elPuente;
+package psp.tema2.sincronizado;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -43,8 +43,8 @@ public class Persona implements Runnable{
 			direccionString = "derecha";
 		}
 		// TODO Auto-generated method stub
-		System.out.print("-- "+idPersona+" de "+peso+" kg quiere cruzar a la " + direccionString + ". ");
-		System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona "+((puente.getNumPersonas()>1)?"s":"en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
+		System.out.println("-- "+idPersona+" de "+peso+" kg quiere cruzar a la " + direccionString + ". ");
+		System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona "+((puente.getNumPersonas()>1)?"s en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda.":"en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
 		
 		//Espera autorización para pasar
 		boolean autorizado=false;
@@ -64,8 +64,8 @@ public class Persona implements Runnable{
 		}
 		
 		// Autorizado
-		System.out.print("> "+idPersona+" con peso "+peso+" puede cruzar.");
-		System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona"+((puente.getNumPersonas()>1)?"s":" en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
+		System.out.println("> "+idPersona+" con peso "+peso+" puede cruzar. ");
+		System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona"+((puente.getNumPersonas()>1)?"s en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda.":"en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
 		
 		int tiempoPaso=ThreadLocalRandom.current().nextInt(tMinPaso, tMaxPaso);
 		try {
@@ -79,14 +79,14 @@ public class Persona implements Runnable{
 		// Sale del puente
 		synchronized (this.puente) {
 			this.puente.terminaPaso(this);
-			System.out.print("< "+idPersona+" con peso "+peso+" sale del puente.");
+			System.out.println("< "+idPersona+" con peso "+peso+" sale del puente.");
 			if (direccion==1) {
 				puente.setNumPersonasIzquierda(puente.getNumPersonasIzquierda()-1);
 			}
 			else {
 				puente.setNumPersonasDerecha(puente.getNumPersonasDerecha()-1);
 			}
-			System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona"+((puente.getNumPersonas()==1)?"s":" en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
+			System.out.println("En puente hay un peso de "+puente.getPeso()+" y "+puente.getNumPersonas()+" persona"+((puente.getNumPersonas()==1)?"s en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda.":"en total; " + this.puente.getNumPersonasDerecha() + " hacia la derecha y " + this.puente.getNumPersonasIzquierda() + " a la izquierda." ));
 			puente.notifyAll();
 		}
 	}

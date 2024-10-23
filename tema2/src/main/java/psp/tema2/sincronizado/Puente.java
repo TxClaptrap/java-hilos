@@ -1,4 +1,4 @@
-package psp.tema2.ejemplos._5_elPuente;
+package psp.tema2.sincronizado;
 
 /**
  * Clase para el control de los requisitos

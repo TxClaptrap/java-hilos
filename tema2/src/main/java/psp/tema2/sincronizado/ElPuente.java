@@ -1,4 +1,4 @@
-package psp.tema2.ejemplos._5_elPuente;
+package psp.tema2.sincronizado;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -30,13 +30,13 @@ public class ElPuente {
 			int pesoNuevaPersona=ThreadLocalRandom.current().nextInt(pesoMinpersona, pesoMaxPersona);
 			int direccion=ThreadLocalRandom.current().nextInt(2);
 			
-			System.out.println("Siguiente persona en "+tiempoNuevoPersona+" segundos");
+			System.out.println("Siguiente persona en "+tiempoNuevoPersona+" segundos.");
 			try {
 				Thread.sleep(1000*tiempoNuevoPersona);
 			} catch (InterruptedException e) {
-				System.out.println("Interrumpido proceso princial");
+				System.out.println("Interrumpido proceso princpial");
 			}
-			Thread hiloPersona=new Thread(new Persona(elPuente,pesoNuevaPersona,tMinPasoPuente,tMaxPasoPuente,"Person"+idPersona, direccion));
+			Thread hiloPersona=new Thread(new Persona(elPuente,pesoNuevaPersona,tMinPasoPuente,tMaxPasoPuente,"Persona "+idPersona, direccion));
 			hiloPersona.start();
 			idPersona++;
 		}
