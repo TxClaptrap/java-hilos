@@ -16,7 +16,7 @@ public class Simulacion {
 
         Thread[] alumnos = new Thread[5];
         for (int i = 0; i < alumnos.length; i++) {
-            alumnos[i] = new Thread(new Alumno("Alumno-" + (i + 1), bancoHerramientas));
+            alumnos[i] = new Thread(new Alumno("Alumno " + (i + 1), bancoHerramientas));
             alumnos[i].start();
         }
 

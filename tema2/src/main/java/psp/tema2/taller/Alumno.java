@@ -25,12 +25,12 @@ public class Alumno implements Runnable {
 
                 synchronized (h1) {
                     synchronized (h2) { //Así, mediante brujería, se bloquean las herramientas y los demás no pueden cogerlas
-                        System.out.printf("%s ha cogido %s y %s y está trabajando...\n", nombre, h1, h2);
+                        System.out.println(nombre + " ha cogido " + h1 + " y " + h2 +  " y está trabajando.");
                         Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 3001));
                     }
                 }
 
-                System.out.printf("%s está descansando...\n", nombre);
+                System.out.println(nombre + " está descansando.");
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
             }
         } catch (InterruptedException e) {
